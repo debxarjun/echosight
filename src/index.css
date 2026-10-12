@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-midnight-950 text-white;
+  }
+
+  .light body,
+  html:not(.dark) body {
+    @apply bg-gray-50 text-gray-900;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-cyan-400;
+  }
+
+  /* Skip link for screen readers */
+  .skip-link {
+    @apply absolute -top-10 left-0 bg-cyan-400 text-midnight-950 px-4 py-2 z-50 font-semibold;
+    transition: top 0.2s;
+  }
+  .skip-link:focus {
+    @apply top-0;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .light .glass-card {
+    @apply bg-white/80 border-gray-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-400 to-violet-400 
+           text-midnight-950 font-semibold rounded-xl transition-all duration-200 
+           hover:shadow-lg hover:shadow-cyan-400/25 hover:scale-[1.02] 
+           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400
+           active:scale-[0.98] text-base;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 
+           border-2 border-cyan-400/50 text-cyan-400 font-semibold rounded-xl 
+           transition-all duration-200 hover:bg-cyan-400/10 hover:border-cyan-400
+           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400
+           active:scale-[0.98] text-base;
+  }
+
+  .btn-large {
+    @apply px-8 py-4 text-lg rounded-2xl;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight;
+  }
+
+  .section-subheading {
+    @apply text-lg md:text-xl text-gray-400 max-w-2xl mx-auto;
+  }
+
+  /* Camera viewfinder */
+  .viewfinder {
+    @apply relative overflow-hidden rounded-2xl bg-black;
+  }
+
+  .viewfinder video {
+    @apply w-full h-full object-cover;
+  }
+
+  .viewfinder-overlay {
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(
+      to bottom,
+      rgba(56, 221, 245, 0.05) 0%,
+      transparent 20%,
+      transparent 80%,
+      rgba(56, 221, 245, 0.05) 100%
+    );
+  }
+
+  /* Scanning animation */
+  .scan-line {
+    @apply absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent;
+    animation: scanLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scanLine {
+    0%, 100% { top: 10%; opacity: 0; }
+    10% { opacity: 1; }
+    50% { top: 90%; opacity: 1; }
+    60% { opacity: 0; }
+  }
+
+  /* Pulse ring for capture button */
+  .pulse-ring {
+    @apply absolute inset-0 rounded-full border-2 border-cyan-400;
+    animation: pulseRing 1.5s ease-out infinite;
+  }
+
+  @keyframes pulseRing {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* High contrast mode enhancements */
+@media (forced-colors: active) {
+  .btn-primary, .btn-secondary {
+    border: 2px solid ButtonText;
+  }
+}
